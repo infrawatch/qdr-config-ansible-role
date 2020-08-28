@@ -1,0 +1,25 @@
+{
+    "command": "/usr/sbin/qdrouterd -c /etc/qpid-dispatch/qdrouterd.conf",
+    "permissions": [
+        {
+            "owner": "qdrouterd:qdrouterd",
+            "path": "/var/log/qdrouterd",
+            "recurse": true
+        },
+        {
+            "owner": "qdrouterd:qdrouterd",
+            "path": "/var/lib/qdrouterd",
+            "recurse": true
+        },
+        {
+            "optional": true,
+            "owner": "qdrouterd:qdrouterd",
+            "path": "/etc/pki/tls/certs/metrics_qdr.crt"
+        },
+        {
+            "optional": true,
+            "owner": "qdrouterd:qdrouterd",
+            "path": "/etc/pki/tls/private/metrics_qdr.key"
+        }
+    ]
+}

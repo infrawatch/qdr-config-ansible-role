@@ -1,0 +1,3 @@
+skip_list:
+   - '701'  # Role info should contain platforms
+   - '703'  # Should change default metadata
