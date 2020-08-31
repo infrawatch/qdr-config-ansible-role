@@ -21,7 +21,7 @@
     template:
       src: qdrouterd.conf.j2
       dest: "{{ qdr_conf_output_dir }}/qdrouterd.conf"
-  when: templates_generate_to_disk
+    when: templates_generate_to_disk
 
 - block:
   - name: "Construct template for qdr config"
@@ -29,4 +29,4 @@
 
   - debug:
       var: config
-  when: not templates_generate_to_disk
+    when: not templates_generate_to_disk
