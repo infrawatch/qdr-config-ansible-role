@@ -1,4 +1,4 @@
-Role Name
+qdr-config-ansible-role
 =========
 
 Config templates for deploying a QDR to OSP
