@@ -8,7 +8,7 @@
     file:
       path: "{{ item }}"
       state: absent
-    with_items:
+    loop:
       - "{{ qdr_conf_output_dir }}/"
       - "{{ qdr_conf_output_dir }}/qdrouterd.conf"
 
