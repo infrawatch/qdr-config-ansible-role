@@ -1,0 +1,23 @@
+---
+- name: "Add config.json for qdr test container"
+  hosts: qdrtest
+  tasks:
+    - name: "Make sure that /var/lib/kolla/config_files exists"
+      file:
+        path: "/var/lib/kolla/config_files"
+        state: directory
+
+    - name: "Add config.json"
+      copy:
+        src: "{{ playbook_dir }}/../../tests/kolla_config_files/config.json"
+        dest: /var/lib/kolla/config_files/config.json
+
+- name: "Create dirs that are usually volume mounted from the host"
+  hosts: qdrtest
+  tasks:
+    - name: "Make sure that /var/log/qdrouterd exists"
+      file:
+        path: "/var/log/qdrouterd"
+        state: directory
+        owner: qdrouterd
+        mode: 0755

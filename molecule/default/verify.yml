@@ -1,0 +1,23 @@
+---
+- name: Verify
+  hosts: qdrtest
+  tasks:
+    - name: "Check for qdrouterd.conf"
+      find:
+        paths: /etc/qpid-dispatch/
+        patterns: qdrouterd.conf
+      register: conf
+      failed_when: conf.files|length != 1
+    - debug:
+        var: conf.files | length
+    - name: "start qdrouterd"
+      command: qdrouterd -U qdrouterd -d
+
+- hosts: localhost
+  tasks:
+    - name: "Run the qdr test from STF functional-tests"
+      include_role:
+        name: functional_tests
+        tasks_from: test_qdr
+      vars:
+        qdr_container_name: 'qdrtest'
