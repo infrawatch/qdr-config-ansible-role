@@ -1,0 +1,30 @@
+---
+dependency:
+  roles:
+    - git+https://github.com/infrawatch/functional-tests
+driver:
+  name: podman
+platforms:
+  - name: qdr-test
+    image: docker.io/tripleomaster/centos-binary-qdrouterd:current-tripleo-rdo
+provisioner:
+  name: ansible
+  log: true
+verifier:
+  name: ansible
+
+scenario:
+  name: default
+  test_sequence:
+    - lint
+    - destroy
+    - dependency
+    # - syntax
+    - create
+    - prepare
+    - converge
+    # - idempotence
+    - side_effect
+    - verify
+    - destroy
+    - cleanup

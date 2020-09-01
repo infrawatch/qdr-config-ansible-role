@@ -1,0 +1,13 @@
+---
+- name: "Add config.json for qdr test container"
+  hosts: qdr-test
+  tasks:
+    - name: "Make sure that /var/lib/kolla/config_files exists"
+      file:
+        path: "/var/lib/kolla/config_files"
+        state: directory
+
+    - name: "Add config.json"
+      copy:
+        src: "{{ playbook_dir }}/../../tests/kolla_config_files/config.json"
+        dest: /var/lib/kolla/config_files/config.json
