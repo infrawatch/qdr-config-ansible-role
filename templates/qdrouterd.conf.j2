@@ -1,0 +1,82 @@
+router {
+    mode: {{router_mode}}
+    id: {{router_id | default("Router." + ansible_fqdn)}}
+    workerThreads: {{router_worker_threads}}
+    debugDumpFile: {{router_debug_dump}}
+    saslConfigDir: {{router_sasl_path}}
+    saslConfigName: {{router_sasl_name}}
+}
+
+{% if listener_require_ssl %}
+sslProfile {
+   name: {{router_id}}
+   certDb: {{listener_ssl_cert_db}}
+   certFile: {{listener_ssl_cert_file}}
+   keyFile: {{listener_ssl_key_file}}
+}
+{% endif %}
+
+{% for profile in ssl_profiles %}
+sslProfile {
+{% for k, v in profile.items() %}
+    {{k}}: {{v}}
+{% endfor %}
+}
+{% endfor %}
+
+listener {
+    host: {{listener_addr}}
+    port: {{listener_port}}
+{% if listener_require_ssl %}
+    sslProfile: {{router_id}}
+{% endif %}
+    authenticatePeer: {{listener_auth_peer}}
+    saslMechanisms: {{listener_sasl_mech}}
+}
+
+{% for listener in extra_listeners %}
+listener {
+{% for k, v in listener.items() %}
+    {{k}}: {{v}}
+{% endfor %}
+}
+{% endfor %}
+
+{% for connector in connectors %}
+connector {
+{% for k, v in connector.items() %}
+    {{k}}: {{v}}
+{% endfor %}
+}
+{% endfor %}
+
+{% for address in addresses %}
+address {
+{% for k, v in address.items() %}
+    {{k}}: {{v}}
+{% endfor %}
+}
+{% endfor %}
+
+{% for address in extra_addresses %}
+address {
+{% for k, v in address.items() %}
+    {{k}}: {{v}}
+{% endfor %}
+}
+{% endfor %}
+
+{% for autolink in autolink_addresses %}
+autoLink {
+{% for k,v in autoLink.items() %}
+    {{k}}: {{v}}
+{% endfor %}
+}
+{% endfor %}
+
+log {
+    module: {{log_module}}
+    enable: {{log_enable}}
+    includeTimestamp: true
+    outputFile: {{log_output}}
+}

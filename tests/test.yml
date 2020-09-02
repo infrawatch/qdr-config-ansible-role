@@ -1,0 +1,7 @@
+---
+- hosts: localhost
+  remote_user: root
+  roles:
+    - '../../qdr-config-ansible-role'
+  vars:
+      qdr_some: thing

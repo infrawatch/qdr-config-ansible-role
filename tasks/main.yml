@@ -1,0 +1,32 @@
+---
+# tasks file for test-role
+# Tasks to replace the conditions section from THT
+# Set up defaults to set bools to false
+
+- block:
+  - name: "Remove file"
+    file:
+      path: "{{ item }}"
+      state: absent
+    loop:
+      - "{{ qdr_conf_output_dir }}/"
+      - "{{ qdr_conf_output_dir }}/qdrouterd.conf"
+
+  - name: "Create config dir"
+    file:
+      path: "{{ qdr_conf_output_dir }}/"
+      state: directory
+
+  - name: "Create core qdr config"
+    template:
+      src: qdrouterd.conf.j2
+      dest: "{{ qdr_conf_output_dir }}/qdrouterd.conf"
+    when: templates_generate_to_disk
+
+- block:
+  - name: "Construct template for qdr config"
+    set_fact: "config={{ lookup('template', 'qdrouterd.conf.j2') }}"
+
+  - debug:
+      var: config
+    when: not templates_generate_to_disk
