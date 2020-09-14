@@ -20,13 +20,13 @@ before_install:
 
 install:
   # Install ansible
-  - pip install ansible ansible-lint
+  - pip install ansible ansible-lint molecule[podman]
 
   # Check ansible version
   - ansible --version
 
   # Create ansible.cfg with correct roles_path
-  - printf '[defaults]\nroles_path=../' >ansible.cfg
+  - printf '[defaults]\nroles_path=./' >ansible.cfg
 
 script:
   # Lint test
