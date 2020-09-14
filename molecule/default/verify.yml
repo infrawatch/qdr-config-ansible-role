@@ -10,7 +10,7 @@
       failed_when: conf.files|length != 1
     - debug:
         var: conf.files | length
-    - name: "start qdrouterd"
+    - name: "Start qdrouterd"
       command: qdrouterd -U qdrouterd -d
 
 - hosts: localhost
@@ -21,3 +21,13 @@
         tasks_from: test_qdr
       vars:
         qdr_container_name: 'qdrtest'
+
+- name: Dump log
+  hosts: qdrtest
+  tasks:
+    - name: Get qdr log
+      register: qdrlog
+      slurp:
+        src: /var/log/qdrouterd/qdrouterd.log
+    - debug:
+        msg: "{{(qdrlog['content'] | b64decode).split('\n')}}"
