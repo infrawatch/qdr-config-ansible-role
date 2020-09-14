@@ -8,10 +8,12 @@
     file:
       path: "{{ qdr_conf_output_dir }}/"
       state: directory
+      mode: 0755
   - name: "Create core qdr config"
     template:
       src: qdrouterd.conf.j2
       dest: "{{ qdr_conf_output_dir }}/qdrouterd.conf"
+      mode: 0644
     when: templates_generate_to_disk
 
 - block:
