@@ -12,11 +12,12 @@ addons:
     packages:
       - python-pip
 
-services:
-  - docker
-
 before_install:
-  - sudo docker pull docker.io/tripleomaster/centos-binary-qdrouterd:current-tripleo-rdo
+  - sudo echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_18.04/ /" | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
+  - curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_18.04/Release.key | sudo apt-key add -
+  - sudo apt-get update
+  - sudo apt-get upgrade
+  - sudo apt-get install -y podman
 
 install:
   # Install ansible
