@@ -33,7 +33,7 @@ script:
   # Lint test
   - ansible-lint tests/test.yml
   # Run the role in a molecule test
-  - molecule test
+  - molecule test --all
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
