@@ -15,12 +15,18 @@
 
 - hosts: localhost
   tasks:
-    - name: "Run the qdr test from STF functional-tests"
-      include_role:
-        name: functional_tests
-        tasks_from: test_qdr
-      vars:
-        qdr_container_name: 'qdrtest'
+    - block:
+      - name: Clear the failure flag
+        set_fact: functest_failed_flag="unknown"
+      - name: "Run the qdr test from STF functional-tests"
+        include_role:
+          name: functional_tests
+          tasks_from: test_qdr
+        vars:
+          qdr_container_name: 'qdrtest'
+      rescue:
+        - name: Set flag if functional tests failed
+          set_fact: functest_failed_flag="failed"
 
 - name: Dump log
   hosts: qdrtest
@@ -31,3 +37,10 @@
         src: /var/log/qdrouterd/qdrouterd.log
     - debug:
         msg: "{{(qdrlog['content'] | b64decode).split('\n')}}"
+
+- name: Check failure flag
+  hosts: localhost
+  tasks:
+    - fail:
+        msg: Functional tests failed
+      when: functest_failed_flag == "failed"
