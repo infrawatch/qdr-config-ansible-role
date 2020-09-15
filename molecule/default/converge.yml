@@ -1,5 +1,6 @@
 ---
 - name: Converge
-  hosts: all
-  roles:
-    - role: "{{ playbook_dir }}/../../../qdr-config-ansible-role"
+  hosts: qdrtest
+  tasks:
+    - include_role:
+        name: "{{ playbook_dir }}/../../../qdr-config-ansible-role"

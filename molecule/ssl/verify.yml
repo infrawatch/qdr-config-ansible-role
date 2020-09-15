@@ -1,0 +1,22 @@
+- import_playbook: ../common/verify.yml
+
+- name: Check log for successful SSL configuration messages
+  hosts: qdrtest
+  tasks:
+    - name: Fail if we do not find our SslProfileEntity
+      fail:
+        msg: Log does not show correct SslProfileEntity line
+      # "2020-09-15 20:06:48.446910 +0000 AGENT (debug) Add entity: SslProfileEntity(caCertFile=bogus, certFile=bogus, identity=sslProfile/qdrtest-ssl, name=qdrtest-ssl, privateKeyFile=bogus, type=org.apache.qpid.dispatch.sslProfile)",
+      when: qdrlog_content.find('SslProfileEntity(caCertFile=bogus, certFile=bogus, identity=sslProfile/qdrtest-ssl, name=qdrtest-ssl, privateKeyFile=bogus, type=org.apache.qpid.dispatch.sslProfile') == -1
+
+    - name: Search for ListenerEntity with our sslProfile
+      set_fact:
+      # "2020-09-15 20:21:57.545267 +0000 AGENT (debug) Add entity: ListenerEntity(authenticatePeer=False, cost=1, healthz=True, host=0.0.0.0, http=False, identity=listener/0.0.0.0:5666, idleTimeoutSeconds=16, initialHandshakeTimeoutSeconds=0, maxFrameSize=16384, maxSessions=32768, messageLoggingComponents=none, metrics=True, multiTenant=False, port=5666, requireEncryption=False, requireSsl=False, role=normal, saslMechanisms=ANONYMOUS, sslProfile=qdrtest-ssl, stripAnnotations=both, type=org.apache.qpid.dispatch.listener, websockets=True)"
+        found_listener: "{{ qdrlog_content | regex_search('ListenerEntity.*sslProfile=qdrtest-ssl') }}"
+
+    - name: Fail if the ListenerEntity was not found
+      fail:
+        msg: Log does not show SSL ListenerEntity
+      when: found_listener | length == 0
+    - debug:
+        msg: Correctly configured SSL Listener confirmed by logs (not a functional test, just checking config syntax)

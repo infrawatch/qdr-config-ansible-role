@@ -1,44 +1,7 @@
 ---
-- name: Verify
-  hosts: qdrtest
-  tasks:
-    - name: "Check for qdrouterd.conf"
-      find:
-        paths: /etc/qpid-dispatch/
-        patterns: qdrouterd.conf
-      register: conf
-      failed_when: conf.files|length != 1
-    - debug:
-        var: conf.files | length
-    - name: "Start qdrouterd"
-      command: qdrouterd -U qdrouterd -d
+- import_playbook: ../common/verify.yml
 
-- hosts: localhost
-  tasks:
-    - block:
-      - name: Clear the failure flag
-        set_fact: functest_failed_flag="unknown"
-      - name: "Run the qdr test from STF functional-tests"
-        include_role:
-          name: functional_tests
-          tasks_from: test_qdr
-        vars:
-          qdr_container_name: 'qdrtest'
-      rescue:
-        - name: Set flag if functional tests failed
-          set_fact: functest_failed_flag="failed"
-
-- name: Dump log
-  hosts: qdrtest
-  tasks:
-    - name: Get qdr log
-      register: qdrlog
-      slurp:
-        src: /var/log/qdrouterd/qdrouterd.log
-    - debug:
-        msg: "{{(qdrlog['content'] | b64decode).split('\n')}}"
-
-- name: Check failure flag
+- name: Check functional test failure flag
   hosts: localhost
   tasks:
     - fail:
