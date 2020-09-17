@@ -1,0 +1,12 @@
+---
+- name: Converge
+  hosts: qdrtest
+  tasks:
+    - include_role:
+        name: "{{ playbook_dir }}/../../../qdr-config-ansible-role"
+      vars:
+        router_id: qdrtest-ssl
+        listener_require_ssl: true
+        listener_ssl_cert_db: bogus
+        listener_ssl_cert_file: bogus
+        listener_ssl_key_file: bogus

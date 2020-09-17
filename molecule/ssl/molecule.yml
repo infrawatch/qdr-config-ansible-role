@@ -19,7 +19,7 @@ dependency:
     role-file: molecule/common/requirements.yml
 
 scenario:
-  name: default
+  name: ssl
   test_sequence:
     - destroy
     - dependency
