@@ -1,6 +1,6 @@
 ---
 driver:
-  name: podman
+  name: docker
 platforms:
   - name: qdrtest
     image: docker.io/tripleomaster/centos-binary-qdrouterd:current-tripleo-rdo
