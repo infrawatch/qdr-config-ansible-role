@@ -1,0 +1,53 @@
+---
+- name: Start the QDR
+  hosts: qdrtest
+  tasks:
+    - name: Check for qdrouterd.conf
+      find:
+        paths: /etc/qpid-dispatch/
+        patterns: qdrouterd.conf
+      register: conf
+      failed_when: conf.files|length != 1
+
+    - name: Start qdrouterd
+      command: qdrouterd -U qdrouterd -d
+
+- name: Functional tests
+  hosts: localhost
+  tasks:
+    - block:
+      - name: Clear the failure flag
+        set_fact: functest_failed_flag="unknown"
+
+      - name: Run the qdr test from STF functional-tests
+        include_role:
+          name: functional_tests
+          tasks_from: test_qdr
+        vars:
+          qdr_container_name: 'qdrtest'
+          container_bin: docker
+
+      rescue:
+        - name: Set flag if functional tests failed
+          set_fact: functest_failed_flag="failed"
+
+- name: Process qdr log
+  hosts: qdrtest
+  tasks:
+    - name: Slurp the file
+      slurp:
+        src: /var/log/qdrouterd/qdrouterd.log
+      register: qdrlog
+
+    - name: Decode the content
+      set_fact:
+        qdrlog_content: "{{ qdrlog['content'] | b64decode }}"
+
+    - name: Split into lines
+      debug:
+        msg: "{{ qdrlog_content.split('\n') }}"
+
+    - name: Check for errors
+      debug:
+        msg: "[WARNING] Found errors in the log. Please review above"
+      when: qdrlog_content.find('ERROR (error)') != -1

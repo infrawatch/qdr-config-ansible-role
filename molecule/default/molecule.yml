@@ -1,0 +1,34 @@
+---
+driver:
+  name: docker
+platforms:
+  - name: qdrtest
+    image: docker.io/tripleomaster/centos-binary-qdrouterd:current-tripleo-rdo
+    dockerfile: ../common/Dockerfile.j2
+provisioner:
+  name: ansible
+  log: true
+  playbooks:
+    prepare: ../common/prepare.yml
+verifier:
+  name: ansible
+
+dependency:
+  name: galaxy
+  options:
+    role-file: molecule/common/requirements.yml
+
+scenario:
+  name: default
+  test_sequence:
+    - destroy
+    - dependency
+    - syntax
+    - create
+    - prepare
+    - converge
+    - idempotence
+    - side_effect
+    - verify
+    - destroy
+    - cleanup

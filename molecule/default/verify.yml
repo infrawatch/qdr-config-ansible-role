@@ -1,0 +1,9 @@
+---
+- import_playbook: ../common/verify.yml
+
+- name: Check functional test failure flag
+  hosts: localhost
+  tasks:
+    - fail:
+        msg: Functional tests failed
+      when: functest_failed_flag == "failed"
