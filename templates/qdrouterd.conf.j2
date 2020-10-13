@@ -9,7 +9,7 @@ router {
 
 {% if listener_require_ssl %}
 sslProfile {
-   name: {{router_id}}
+   name: {{router_id | default("Router." + ansible_fqdn)}}
    certDb: {{listener_ssl_cert_db}}
    certFile: {{listener_ssl_cert_file}}
    keyFile: {{listener_ssl_key_file}}
@@ -28,7 +28,7 @@ listener {
     host: {{listener_addr}}
     port: {{listener_port}}
 {% if listener_require_ssl %}
-    sslProfile: {{router_id}}
+    sslProfile: {{router_id | default("Router." + ansible_fqdn)}}
 {% endif %}
     authenticatePeer: {{listener_auth_peer}}
     saslMechanisms: {{listener_sasl_mech}}
