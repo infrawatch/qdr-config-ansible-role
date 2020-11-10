@@ -10,7 +10,7 @@ router {
 {% if listener_require_ssl %}
 sslProfile {
    name: {{router_id | default("Router." + ansible_fqdn)}}
-   certDb: {{listener_ssl_cert_db}}
+   caCertFile: {{listener_ssl_cert_db}}
    certFile: {{listener_ssl_cert_file}}
    keyFile: {{listener_ssl_key_file}}
 }
