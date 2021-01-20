@@ -1,0 +1,24 @@
+name: Build RPM
+
+on: push
+
+jobs:
+  rpm_lint_job:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          sudo apt install rpmlint
+      - run: |
+          rpmlint qdr-config-ansible-role.spec
+
+  rpm_build_job:
+    runs-on: ubuntu-18.04
+    name: Build the rpms in infrawatch
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build the RPMs
+        run: |
+          docker run --network host -i --volume $PWD:/opt:z --workdir /opt quay.io/fedora/fedora:34 /bin/bash -c './build_tools/build_rpms.sh'
