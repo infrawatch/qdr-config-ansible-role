@@ -14,8 +14,9 @@ addresses:
     distribution: multicast
 autolink_addresses: []
 connectors: []
-extra_listeners: []
 extra_addresses: []
+extra_listeners: []
+extra_ssl_profiles: []
 listener_addr: 0.0.0.0
 listener_auth_peer: no
 listener_port: 5666
