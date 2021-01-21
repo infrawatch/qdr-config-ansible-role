@@ -3,7 +3,7 @@ driver:
   name: ${CONTAINER_BIN:-docker}
 platforms:
   - name: qdrtest
-    image: docker.io/tripleomaster/centos-binary-qdrouterd:current-tripleo-rdo
+    image: quay.io/tripleomaster/openstack-qdrouterd:current-tripleo
     dockerfile: ../common/Dockerfile.j2
 provisioner:
   name: ansible
