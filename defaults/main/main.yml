@@ -12,6 +12,7 @@ qdr_addresses:
     distribution: multicast
   - prefix: 'ceilometer/event.sample'
     distribution: multicast
+
 qdr_autolink_addresses: []
 qdr_connectors: []
 qdr_extra_addresses: []
@@ -37,6 +38,7 @@ qdr_router_debug_dump: /var/log/qdrouterd
 qdr_router_mode: edge
 qdr_router_sasl_name: qdrouterd
 qdr_router_sasl_path: /etc/sasl2
+
 # Fixme? - in puppet there is a standardized calculation for this https://github.com/openstack/puppet-openstacklib/blob/master/lib/facter/os_workers.rb
 qdr_router_worker_threads: 2
 qdr_ssl_profiles: []
