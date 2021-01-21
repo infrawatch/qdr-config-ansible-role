@@ -5,39 +5,39 @@
 templates_generate_to_disk: true
 qdr_conf_output_dir: /etc/qpid-dispatch/
 
-addresses:
+qdr_addresses:
   - prefix: 'collectd'
     distribution: multicast
   - prefix: 'ceilometer/metering.sample'
     distribution: multicast
   - prefix: 'ceilometer/event.sample'
     distribution: multicast
-autolink_addresses: []
-connectors: []
-extra_addresses: []
-extra_listeners: []
-extra_ssl_profiles: []
-listener_addr: 0.0.0.0
-listener_auth_peer: no
-listener_port: 5666
-listener_require_ssl: false
-listener_require_encrypt: false
-listener_sasl_mech: ANONYMOUS
-listener_ssl_cert_db: ''
-listener_ssl_cert_file: ''
-listener_ssl_key_file: ''
-listener_ssl_pw_file: ''
-listener_ssl_password: ''
-listener_trusted_certs: ''
-log_enable: debug+
-log_module: DEFAULT
-log_output: /var/log/qdrouterd/qdrouterd.log
-password: guest
-router_debug_dump: /var/log/qdrouterd
-router_mode: edge
-router_sasl_name: qdrouterd
-router_sasl_path: /etc/sasl2
+qdr_autolink_addresses: []
+qdr_connectors: []
+qdr_extra_addresses: []
+qdr_extra_listeners: []
+qdr_extra_ssl_profiles: []
+qdr_listener_addr: 0.0.0.0
+qdr_listener_auth_peer: no
+qdr_listener_port: 5666
+qdr_listener_require_ssl: false
+qdr_listener_require_encrypt: false
+qdr_listener_sasl_mech: ANONYMOUS
+qdr_listener_ssl_cert_db: ''
+qdr_listener_ssl_cert_file: ''
+qdr_listener_ssl_key_file: ''
+qdr_listener_ssl_pw_file: ''
+qdr_listener_ssl_password: ''
+qdr_listener_trusted_certs: ''
+qdr_log_enable: debug+
+qdr_log_module: DEFAULT
+qdr_log_output: /var/log/qdrouterd/qdrouterd.log
+qdr_password: guest
+qdr_router_debug_dump: /var/log/qdrouterd
+qdr_router_mode: edge
+qdr_router_sasl_name: qdrouterd
+qdr_router_sasl_path: /etc/sasl2
 # Fixme? - in puppet there is a standardized calculation for this https://github.com/openstack/puppet-openstacklib/blob/master/lib/facter/os_workers.rb
-router_worker_threads: 2
-ssl_profiles: []
-username: guest
+qdr_router_worker_threads: 2
+qdr_ssl_profiles: []
+qdr_username: guest

@@ -25,7 +25,7 @@
           tasks_from: test_qdr
         vars:
           qdr_container_name: 'qdrtest'
-          container_bin: docker
+          container_bin: ${CONTAINER_BIN:-docker}
 
       rescue:
         - name: Set flag if functional tests failed

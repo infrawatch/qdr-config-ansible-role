@@ -5,8 +5,8 @@
     - include_role:
         name: "{{ playbook_dir }}/../../../qdr-config-ansible-role"
       vars:
-        router_id: qdrtest-ssl
-        listener_require_ssl: true
-        listener_ssl_cert_db: bogus
-        listener_ssl_cert_file: bogus
-        listener_ssl_key_file: bogus
+        qdr_router_id: qdrtest-ssl
+        qdr_listener_require_ssl: true
+        qdr_listener_ssl_cert_db: bogus
+        qdr_listener_ssl_cert_file: bogus
+        qdr_listener_ssl_key_file: bogus

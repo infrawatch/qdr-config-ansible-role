@@ -1,22 +1,22 @@
 router {
-    mode: {{router_mode}}
-    id: {{router_id | default("Router." + ansible_fqdn)}}
-    workerThreads: {{router_worker_threads}}
-    debugDumpFile: {{router_debug_dump}}
-    saslConfigDir: {{router_sasl_path}}
-    saslConfigName: {{router_sasl_name}}
+    mode: {{qdr_router_mode}}
+    id: {{qdr_router_id | default("Router." + ansible_fqdn)}}
+    workerThreads: {{qdr_router_worker_threads}}
+    debugDumpFile: {{qdr_router_debug_dump}}
+    saslConfigDir: {{qdr_router_sasl_path}}
+    saslConfigName: {{qdr_router_sasl_name}}
 }
 
-{% if listener_require_ssl %}
+{% if qdr_listener_require_ssl %}
 sslProfile {
-   name: {{router_id | default("Router." + ansible_fqdn)}}
-   caCertFile: {{listener_ssl_cert_db}}
-   certFile: {{listener_ssl_cert_file}}
-   keyFile: {{listener_ssl_key_file}}
+   name: {{qdr_router_id | default("Router." + ansible_fqdn)}}
+   caCertFile: {{qdr_listener_ssl_cert_db}}
+   certFile: {{qdr_listener_ssl_cert_file}}
+   keyFile: {{qdr_listener_ssl_key_file}}
 }
 {% endif %}
 
-{% for profile in ssl_profiles %}
+{% for profile in qdr_ssl_profiles %}
 sslProfile {
 {% for k, v in profile.items() %}
     {{k}}: {{v}}
@@ -24,7 +24,7 @@ sslProfile {
 }
 {% endfor %}
 
-{% for profile in extra_ssl_profiles %}
+{% for profile in qdr_extra_ssl_profiles %}
 sslProfile {
 {% for k, v in profile.items() %}
     {{k}}: {{v}}
@@ -33,16 +33,16 @@ sslProfile {
 {% endfor %}
 
 listener {
-    host: {{listener_addr}}
-    port: {{listener_port}}
-{% if listener_require_ssl %}
-    sslProfile: {{router_id | default("Router." + ansible_fqdn)}}
+    host: {{qdr_listener_addr}}
+    port: {{qdr_listener_port}}
+{% if qdr_listener_require_ssl %}
+    sslProfile: {{qdr_router_id | default("Router." + ansible_fqdn)}}
 {% endif %}
-    authenticatePeer: {{listener_auth_peer}}
-    saslMechanisms: {{listener_sasl_mech}}
+    authenticatePeer: {{qdr_listener_auth_peer}}
+    saslMechanisms: {{qdr_listener_sasl_mech}}
 }
 
-{% for listener in extra_listeners %}
+{% for listener in qdr_extra_listeners %}
 listener {
 {% for k, v in listener.items() %}
     {{k}}: {{v}}
@@ -50,7 +50,7 @@ listener {
 }
 {% endfor %}
 
-{% for connector in connectors %}
+{% for connector in qdr_connectors %}
 connector {
 {% for k, v in connector.items() %}
     {{k}}: {{v}}
@@ -58,7 +58,7 @@ connector {
 }
 {% endfor %}
 
-{% for address in addresses %}
+{% for address in qdr_addresses %}
 address {
 {% for k, v in address.items() %}
     {{k}}: {{v}}
@@ -66,7 +66,7 @@ address {
 }
 {% endfor %}
 
-{% for address in extra_addresses %}
+{% for address in qdr_extra_addresses %}
 address {
 {% for k, v in address.items() %}
     {{k}}: {{v}}
@@ -74,7 +74,7 @@ address {
 }
 {% endfor %}
 
-{% for autolink in autolink_addresses %}
+{% for autolink in qdr_autolink_addresses %}
 autoLink {
 {% for k,v in autoLink.items() %}
     {{k}}: {{v}}
@@ -83,8 +83,8 @@ autoLink {
 {% endfor %}
 
 log {
-    module: {{log_module}}
-    enable: {{log_enable}}
+    module: {{qdr_log_module}}
+    enable: {{qdr_log_enable}}
     includeTimestamp: true
-    outputFile: {{log_output}}
+    outputFile: {{qdr_log_output}}
 }
