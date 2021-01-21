@@ -24,6 +24,14 @@ sslProfile {
 }
 {% endfor %}
 
+{% for profile in extra_ssl_profiles %}
+sslProfile {
+{% for k, v in profile.items() %}
+    {{k}}: {{v}}
+{% endfor %}
+}
+{% endfor %}
+
 listener {
     host: {{listener_addr}}
     port: {{listener_port}}
