@@ -32,14 +32,6 @@ sslProfile {
 }
 {% endfor %}
 
-{% for profile in extra_ssl_profiles %}
-sslProfile {
-{% for k, v in profile.items() %}
-    {{k}}: {{v}}
-{% endfor %}
-}
-{% endfor %}
-
 listener {
     host: {{qdr_listener_addr}}
     port: {{qdr_listener_port}}
