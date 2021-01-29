@@ -19,8 +19,8 @@ rpmbuild -bb --define "upstream_version ${UPSTREAM_VERSION}" --define "version $
 
 if [ -d "/usr/share/ansible/roles/qdr_config" ]
 then
-	echo "Removing existing ansible-qdr-config package..."
-	dnf -y remove ansible-qdr-config
+	echo "Removing existing ansible-role-qdr-config package..."
+	dnf -y remove ansible-role-qdr-config
 fi
 
 if [ -d "/usr/share/ansible/roles/qdr_config" ]
@@ -34,7 +34,7 @@ ls -R $HOME/rpmbuild
 ls $HOME/rpmbuild/RPMS/noarch/
 
 echo "Installing RPM..."
-dnf install -y $HOME/rpmbuild/RPMS/noarch/ansible-qdr-config-${VERSION}-${RELEASE}.noarch.rpm
+dnf install -y $HOME/rpmbuild/RPMS/noarch/ansible-role-qdr-config-${VERSION}-${RELEASE}.noarch.rpm
 
 if [ ! -d "/usr/share/ansible/roles/qdr_config" ]
 then
@@ -44,4 +44,4 @@ else
 	echo "qdr_config was successfully installed!"
 fi
 
-cp $HOME/rpmbuild/RPMS/noarch/ansible-qdr-config-${VERSION}-${RELEASE}.noarch.rpm /opt/
+cp $HOME/rpmbuild/RPMS/noarch/ansible-role-qdr-config-${VERSION}-${RELEASE}.noarch.rpm /opt/
