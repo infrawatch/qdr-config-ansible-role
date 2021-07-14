@@ -1,6 +1,6 @@
 router {
     mode: {{qdr_router_mode}}
-    id: {{qdr_router_id | default("Router." + ansible_fqdn)}}
+    id: {{qdr_router_id | default("Router." + ansible_facts['fqdn'])}}
     workerThreads: {{qdr_router_worker_threads}}
     debugDumpFile: {{qdr_router_debug_dump}}
     saslConfigDir: {{qdr_router_sasl_path}}
@@ -9,7 +9,7 @@ router {
 
 {% if qdr_listener_require_ssl %}
 sslProfile {
-   name: {{qdr_router_id | default("Router." + ansible_fqdn)}}
+   name: {{qdr_router_id | default("Router." + ansible_facts['fqdn'])}}
    caCertFile: {{qdr_listener_ssl_cert_db}}
    certFile: {{qdr_listener_ssl_cert_file}}
    keyFile: {{qdr_listener_ssl_key_file}}
@@ -36,7 +36,7 @@ listener {
     host: {{qdr_listener_addr}}
     port: {{qdr_listener_port}}
 {% if qdr_listener_require_ssl %}
-    sslProfile: {{qdr_router_id | default("Router." + ansible_fqdn)}}
+    sslProfile: {{qdr_router_id | default("Router." + ansible_facts['fqdn'])}}
 {% endif %}
     authenticatePeer: {{qdr_listener_auth_peer}}
     saslMechanisms: {{qdr_listener_sasl_mech}}
